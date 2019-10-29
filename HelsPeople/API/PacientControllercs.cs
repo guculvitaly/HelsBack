@@ -15,10 +15,14 @@ namespace HelsPeople.API
     public class PacientControllercs : ControllerBase
     {
         private IPacientRepository repository;
+        private ISearchRepository searchRepository;
         private ElasticConnection elasticConnection;
-        public PacientControllercs(IPacientRepository _repository)
+       
+
+        public PacientControllercs(IPacientRepository _repository, ISearchRepository _searchRepository)
         {
             repository = _repository;
+            searchRepository = _searchRepository;
             elasticConnection = new ElasticConnection();
         }
 
@@ -72,44 +76,6 @@ namespace HelsPeople.API
             return Ok();
         }
 
-        [HttpGet("_search/{text}")]
-        public async Task<IActionResult> Search(string text)
-        {
-
-
-            var list = repository.FindAll().ToList();
-
-
-            foreach (var data in list)
-            {
-                var ndexResponse = elasticConnection.EsClient().IndexDocument(data);
-            }
-
-           
-          var  mSearchResponse = elasticConnection.EsClient().Search<Pacient>(s => s
-                .Query(q => q
-                    .Match(m => m
-                        .Field(f => f.FirstName)
-                        .Query(text)
-                    ) || q
-                    .Match(m => m
-                        .Field(f => f.LastName)
-                        .Query(text)
-                    ) || q
-                    .Match(v => v
-                    .Field(f => f.PhoneNumber)
-                    .Query(text))
-
-                    
-
-                )
-            );
-
-
-
-            var people = mSearchResponse.Documents;
-
-            return Ok(people);
-        }
+        
     }
 }

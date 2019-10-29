@@ -18,9 +18,10 @@ namespace HelsPeople.ElasticSearch
                 new Uri("http://localhost:9200/"),
             };
 
-            var connectionPool = new StaticConnectionPool(nodes);
-            //var connectionSettings = new ConnectionSettings(connectionPool).DefaultIndex("index");
+            var connectionPool = new StaticConnectionPool(nodes); 
             var connectionSettings = new ConnectionSettings(connectionPool).DefaultIndex("index").DisableDirectStreaming();
+
+          
             var elasticClient = new ElasticClient(connectionSettings);
 
             return elasticClient;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelsPeople.Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public  class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected ApplicationContext _context { get; set; }
 
@@ -14,6 +14,8 @@ namespace HelsPeople.Repository
         {
             _context = context;
         }
+
+       
 
         public IQueryable<T> FindAll()
         {

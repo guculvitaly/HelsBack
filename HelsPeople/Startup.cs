@@ -36,8 +36,9 @@ namespace HelsPeople
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                     .AllowAnyMethod()
                                                                      .AllowAnyHeader()));
-
+            services.AddMvc();
             services.AddScoped<IPacientRepository, EFPacientRepository>();
+            services.AddScoped<ISearchRepository, EFSearchRepository>();
         }
 
 
@@ -48,6 +49,8 @@ namespace HelsPeople
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            
 
             app.UseHttpsRedirection();
 
